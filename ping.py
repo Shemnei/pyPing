@@ -1,5 +1,6 @@
 """
     A pure python ping implementation.
+	Must be run with root/administrator privileges.
 
     Some snippets are from:
         https://github.com/samuel/python-ping/blob/master/ping.py
@@ -185,11 +186,9 @@ def send_one_ping(socket_: socket.socket, host: str, *, packet_id: int=0,
     """
     packet = make_icmp_packet(p_id=packet_id, p_seq=packet_seq, payload_size=payload_size)
 
-    try:
-        socket_.sendto(packet, (host, 1))
-        send_time = time.perf_counter()
-    except socket.error as e:
-        raise e
+    socket_.sendto(packet, (host, 1))
+    send_time = time.perf_counter()
+
     return send_time
 
 
@@ -249,11 +248,8 @@ def ping(host: str, *, payload_size: int=DEFAULT_PAYLOAD_SIZE, count: int=DEFAUL
     id_ = os.getpid() & 0xFFFF
     times = []
 
-    try:
-        fqdn = socket.getfqdn(host)
-        ip = socket.gethostbyname(host)
-    except socket.gaierror as e:
-        raise e
+    fqdn = socket.getfqdn(host)
+    ip = socket.gethostbyname(host)
 
     if not quiet:
         print("Pinging %s [%s] with %i bytes of data:" % (host, "/".join([fqdn, ip]), payload_size))

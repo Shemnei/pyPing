@@ -1,7 +1,8 @@
 A pure python implementation of ping.
 ======
 
-Requires Python 3.5
+Requires Python 3.5.
+Must be run with root/administrator privileges.
 
 Can be used as script/standalone or in other projects.
 
